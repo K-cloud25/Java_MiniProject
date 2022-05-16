@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 
 import com.google.android.material.tabs.TabLayout;
 
+/*  This Class is for only User Related Table  User Authentication Table*/
+
 public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
 
     // creating a constant variables for our database.
@@ -44,6 +46,7 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
+    //This onCreate is basic constructor which will create a table and will remove a old table
     @Override
     public void onCreate(SQLiteDatabase db) {
         // on below line we are creating
@@ -70,6 +73,7 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    //When Adding a user to Table User this function to store the object user to the Database
     public void addUser(User_Class user){
         //We add user to user_auth table
         // on below line we are creating a variable for
@@ -98,6 +102,7 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
         db.close();
     }
 
+    //This Function is to check if generated OTP is unique or not
     public boolean checkOTP(SQLiteDatabase db,int _OTP){
 
         String query = "SELECT * from " + TABLE_NAME +" where "+ OTP_COL + " = " + _OTP;
@@ -111,8 +116,8 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
         return true;
     }
 
+    //This function is to set the generated otp to a particular user
     public void setOTP(SQLiteDatabase db,int OTP , int user_ID){
-
         ContentValues values = new ContentValues();
 
         values.put(OTP_COL,OTP);
@@ -120,6 +125,7 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
         db.update(TABLE_NAME,values,"id = ?", new String[]{String.valueOf(user_ID)});
     }
 
+    //This function is used to get a unique UID from list i.e. max value
     public int maxUid(SQLiteDatabase db){
         String query = "Select max("+ID+") from "+TABLE_NAME;
 
@@ -128,6 +134,7 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
         return ret;
     }
 
+    //This function is used to return a User_Class object from list i.e. If we change login account
     public User_Class getCUser(SQLiteDatabase db, int Uid){
 
         String query = "SELECT * from "+TABLE_NAME+" where " +ID+ " = " + Uid;
@@ -144,7 +151,7 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
             String _email = cursor.getString(3);
             boolean _verified;
                     int temp= cursor.getInt(4);
-            if(temp == 1){_verified = true;}else{_verified=false;}
+            _verified = temp == 1;
 
             int _otp = cursor.getInt(5);
 
@@ -152,6 +159,5 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
 
         }
     }
-
 
 }

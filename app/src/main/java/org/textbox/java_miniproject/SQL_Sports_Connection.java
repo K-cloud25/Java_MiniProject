@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.Locale;
 
+
+//This class is used to interact with the SPORTS TABLE
 public class SQL_Sports_Connection extends SQLiteOpenHelper {
 
     // creating a constant variables for our database.
@@ -69,6 +71,7 @@ public class SQL_Sports_Connection extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    //When User makes a booking call this function to add the data to the Database
     public void add_Booking(Sports_Booking_Class booking){
         //We add user to user_auth table
         // on below line we are creating a variable for
@@ -98,6 +101,7 @@ public class SQL_Sports_Connection extends SQLiteOpenHelper {
         db.close();
     }
 
+    //When day passes booking can be removed from Database using the function
     public void rem_Booking(Sports_Booking_Class booking){
 
         String query = "DELETE from "+TABLE_NAME + " WHERE  "
@@ -114,6 +118,7 @@ public class SQL_Sports_Connection extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Function to get the ArrayList of all the bookings in the Database
     public ArrayList<Sports_Booking_Class> get_Bookings(String _sportName){
         ArrayList<Sports_Booking_Class> array = new ArrayList<>();
 
