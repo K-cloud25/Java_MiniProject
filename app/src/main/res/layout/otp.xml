@@ -39,7 +39,10 @@
 
     <com.chaos.view.PinView
         android:layout_width="wrap_content"
+        style="@style/PinWidget.PinView"
         android:layout_height="60dp"
+        android:inputType="number"
+        android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/text2"
         app:layout_constraintStart_toEndOf="@id/guideline5"
         android:layout_marginTop="30dp"/>
