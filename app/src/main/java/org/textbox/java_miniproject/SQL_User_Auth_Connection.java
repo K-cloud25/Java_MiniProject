@@ -1,10 +1,12 @@
 package org.textbox.java_miniproject;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -53,13 +55,13 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
         // an sqlite query and we are
         // setting our column names
         // along with their data types.
-            String query = "CREATE TABLE " + TABLE_NAME + " ("
-                    + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            String query = " CREATE TABLE " + TABLE_NAME + " ("
+                    + ID + " INTEGER PRIMARY KEY, "
                     + NAME_COL + " TEXT,"
                     + Password_COL + " TEXT,"
-                    + Email_COL + "TEXT,"
-                    + Verified_COL + "BOOLEAN,"
-                    + OTP_COL + "INT)";
+                    + Email_COL + " TEXT,"
+                    + Verified_COL + " BOOLEAN,"
+                    + OTP_COL + " INT)";
 
             // at last we are calling a exec sql
             // method to execute above sql query
@@ -87,10 +89,12 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
 
         // on below line we are passing all values
         // along with its key and value pair.
+
         values.put(ID, user.getId());
         values.put(NAME_COL, user.getName());
         values.put(Password_COL, user.getPassword());
         values.put(Email_COL, user.getEmail());
+        values.put(Verified_COL,false);
         values.put(OTP_COL, user.getOTP());
 
         // after adding all values we are passing
@@ -101,6 +105,7 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
         // database after adding database.
         db.close();
     }
+
 
     //This Function is to check if generated OTP is unique or not
     public boolean checkOTP(SQLiteDatabase db,int _OTP){
@@ -135,29 +140,27 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
     }
 
     //This function is used to return a User_Class object from list i.e. If we change login account
-    public User_Class getCUser(SQLiteDatabase db, int Uid){
+    public User_Class getCUser(int Uid){
 
-        String query = "SELECT * from "+TABLE_NAME+" where " +ID+ " = " + Uid;
+        SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery(query,null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+TABLE_NAME,null);
+        Log.println(Log.ASSERT,"TAG", String.valueOf(cursor.getCount()));
 
-        if(cursor.getCount() == 0){
-            return null;
-        }else {
+        if(cursor.moveToFirst()){
 
-            int _id = cursor.getInt(0);
-            String _name = cursor.getString(1);
-            String _password=  cursor.getString(2);
-            String _email = cursor.getString(3);
-            boolean _verified;
-                    int temp= cursor.getInt(4);
-            _verified = temp == 1;
+            int _ID = cursor.getInt(0);
+            String _Name = cursor.getString(1);
+            String _Password = cursor.getString(2);
+            String _Email = cursor.getString(3);
+            int _temp = cursor.getInt(4);
+            boolean verified = _temp == 1;
+            int _OTP = cursor.getInt(5);
 
-            int _otp = cursor.getInt(5);
-
-            return new User_Class(_id,_name,_password,_email, _otp, _verified);
+            return new User_Class(_ID,_Name,_Password,_Email,_OTP,verified);
 
         }
+        return null;
     }
 
 }
