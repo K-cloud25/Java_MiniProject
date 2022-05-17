@@ -144,7 +144,7 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM "+TABLE_NAME,null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+TABLE_NAME + " WHERE "+ID+" = "+Uid,null);
         Log.println(Log.ASSERT,"TAG", String.valueOf(cursor.getCount()));
 
         if(cursor.moveToFirst()){
