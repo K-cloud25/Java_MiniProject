@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Java_MiniProject</string>
+    <string name="booking_sport_na">Booking Sport NA</string>
+    <string name="booking_data_na">Booking Date NA</string>
+    <string name="booking_date_na">Booking Timing NA</string>
+    <string name="booking_timinig_na">Booking Timinig NA</string>
 </resources>

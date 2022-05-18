@@ -1,21 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="15dp"
-    android:background="@color/test"
+    android:background="@drawable/booking_layout_background"
     android:layout_margin="5dp">
 
 
     <TextView
+        android:id="@+id/bookingNameTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Booking ID"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginHorizontal="15dp"
+        android:gravity="start"
+        android:text="@string/booking_sport_na"
+        android:textColor="@color/black" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/bookingDateTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginHorizontal="15dp"
+        android:layout_toEndOf="@id/bookingNameTV"
+        android:gravity="end"
+        android:text="@string/booking_data_na"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/bookingTimeTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/booking_date_na"
+        android:layout_below="@id/bookingNameTV"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="7dp"
+        android:textColor="@color/black"
+        android:gravity="start"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:id="@+id/bookingStatusTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bookingDateTV"
+        android:layout_alignParentEnd="true"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="7dp"
+        android:layout_toEndOf="@id/bookingTimeTV"
+        android:gravity="end"
+        android:text="@string/booking_timinig_na"
+        android:textColor="@color/black" />
+
+</RelativeLayout>
