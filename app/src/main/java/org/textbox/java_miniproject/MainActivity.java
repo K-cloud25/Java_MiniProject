@@ -1,22 +1,22 @@
 package org.textbox.java_miniproject;
 
-import static android.os.SystemClock.sleep;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.chaos.view.PinView;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+
+    int otp;
+    User_Class temp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         User_Class temp = dbh.getCUser(id);
         if (temp == null)
             Toast.makeText(this, "Erp " + id + " does not exist", Toast.LENGTH_SHORT).show();
+        else if (temp.getVerified()== false) Toast.makeText(this, "Your id is not yet verified",Toast.LENGTH_SHORT).show();
         else if (stringCompare(pass, temp.getPassword()) == 0) {
             setContentView(R.layout.main_page);
         } else {
@@ -73,28 +74,40 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void otpPopUp(int otp) {
+    public void otpPopUp() {
         setContentView(R.layout.otp_popup);
-        int time = 10;
-        while (time > 0) {
-            sleep(100);
-            time -= 1;
-            TextView timer = (TextView) findViewById(R.id.TimerText);
-            timer.setText(Integer.toString(time));
-        }
+        final int[] time = {10};
+        TextView OTP = (TextView) findViewById(R.id.otp);
+        OTP.setText(Integer.toString(otp));
+        TextView timer = (TextView) findViewById(R.id.TimerText);
+        new CountDownTimer(10000, 1000) {
+
+            public void onTick(long l) {
+                timer.setText(String.valueOf(time[0]));
+                time[0]--;
+            }
+
+            public void onFinish() {
+                setContentView(R.layout.otp);
+            }
+        }.start();
     }
 
-    public void otpVerify(int otp, User_Class temp) {
-        setContentView(R.layout.otp);
+
+    public void otpVerify(View view) {
         PinView OTP = (PinView) findViewById(R.id.otpPinView);
         String v = OTP.getText().toString();
-        int o = Integer.valueOf(v);
-        if (o == otp) {
-            temp.setVerified(true);
-            Toast.makeText(this, "You have been verified succcessfully", Toast.LENGTH_SHORT).show();
-            setContentView(R.layout.sign_in);
+        if (v == "") {
+            Toast.makeText(this, "Please Enter an OTP", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Wrong OTP", Toast.LENGTH_SHORT).show();
+            String o = Integer.toString(otp);
+            if (stringCompare(o, v) == 0) {
+                temp.setVerified(true);
+                Toast.makeText(this, "You have been verified succcessfully", Toast.LENGTH_SHORT).show();
+                setContentView(R.layout.sign_in);
+            } else {
+                Toast.makeText(this, "Wrong OTP", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -117,11 +130,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Erp is already registered", Toast.LENGTH_SHORT).show();
             else {
                 Random rnd = new Random();
-                int otp = rnd.nextInt(9999);
-                User_Class temp = new User_Class(id, name, email, pass, otp);
+                otp = rnd.nextInt(9999);
+                temp = new User_Class(id, name, email, pass, otp);
                 dbh.addUser(temp);
-                otpPopUp(otp);
-                otpVerify(otp, temp);
+                otpPopUp();
             }
         }
     }
