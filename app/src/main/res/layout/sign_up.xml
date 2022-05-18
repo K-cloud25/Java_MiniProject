@@ -29,39 +29,45 @@
 
     <Button
         android:id="@+id/signin"
-        android:layout_width="248dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/buttonback"
+        android:onClick="signInOnSignUp"
         android:text="Sign in"
         android:textColor="#bababa"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/foot"
-        app:layout_constraintTop_toBottomOf="@+id/signUp"
-        tools:layout_editor_absoluteX="71dp" />
+        app:layout_constraintEnd_toStartOf="@id/guidelinebuttonend"
+        app:layout_constraintStart_toEndOf="@id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/signUp" />
 
     <Button
         android:id="@+id/signUp"
-        android:layout_width="248dp"
+        android:onClick="signUpOnSignUp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/buttonback"
         android:text="Sign Up"
         android:textColor="#bababa"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/signin"
-        app:layout_constraintTop_toBottomOf="@+id/passwordBox"
-        tools:layout_editor_absoluteX="71dp" />
+        app:layout_constraintEnd_toStartOf="@id/guidelinebuttonend"
+        app:layout_constraintStart_toEndOf="@id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/passwordBox" />
 
     <LinearLayout
         android:id="@+id/erpBox"
-        android:layout_width="309dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/back"
         app:layout_constraintBottom_toTopOf="@+id/emailbox"
-        app:layout_constraintTop_toBottomOf="@+id/sign_in"
-        tools:layout_editor_absoluteX="41dp">
+        app:layout_constraintEnd_toStartOf="@id/guideline1"
+        app:layout_constraintStart_toEndOf="@id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/sign_in">
 
         <EditText
-            android:layout_width="wrap_content"
+            android:id="@+id/userIdSignUp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:backgroundTint="#333333"
@@ -74,15 +80,17 @@
 
     <LinearLayout
         android:id="@+id/passwordBox"
-        android:layout_width="309dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/back"
         app:layout_constraintBottom_toTopOf="@+id/signUp"
-        app:layout_constraintTop_toBottomOf="@+id/emailbox"
-        tools:layout_editor_absoluteX="41dp">
+        app:layout_constraintEnd_toStartOf="@id/guideline1"
+        app:layout_constraintStart_toEndOf="@id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/emailbox">
 
         <EditText
-            android:layout_width="wrap_content"
+            android:id="@+id/passOnSignUp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:backgroundTint="#333333"
@@ -95,20 +103,22 @@
 
     <LinearLayout
         android:id="@+id/emailbox"
-        android:layout_width="309dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/back"
         app:layout_constraintBottom_toTopOf="@+id/passwordBox"
-        app:layout_constraintTop_toBottomOf="@+id/erpBox"
-        tools:layout_editor_absoluteX="41dp">
+        app:layout_constraintEnd_toStartOf="@id/guideline1"
+        app:layout_constraintStart_toEndOf="@id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/erpBox">
 
         <EditText
-            android:layout_width="wrap_content"
+            android:id="@+id/nameOnSignUp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:backgroundTint="#333333"
-            android:hint="Email Address"
-            android:inputType="textEmailAddress"
+            android:hint="Name"
+            android:inputType="textCapWords"
             android:textColor="#9c9c9c"
             android:textColorHint="#9c9c9c"
             android:textSize="20dp" />
@@ -132,6 +142,13 @@
         app:layout_constraintGuide_percent="-0.15" />
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -152,6 +169,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelinebuttonend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"

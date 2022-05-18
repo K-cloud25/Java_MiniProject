@@ -44,7 +44,7 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
     // below variable is for our user OTP column.
     private static final String OTP_COL = "OTP";
 
-    public SQL_User_Auth_Connection(Context context){
+    public SQL_User_Auth_Connection(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
@@ -55,17 +55,17 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
         // an sqlite query and we are
         // setting our column names
         // along with their data types.
-            String query = " CREATE TABLE " + TABLE_NAME + " ("
-                    + ID + " INTEGER PRIMARY KEY, "
-                    + NAME_COL + " TEXT,"
-                    + Password_COL + " TEXT,"
-                    + Email_COL + " TEXT,"
-                    + Verified_COL + " BOOLEAN,"
-                    + OTP_COL + " INT)";
+        String query = " CREATE TABLE " + TABLE_NAME + " ("
+                + ID + " INTEGER PRIMARY KEY, "
+                + NAME_COL + " TEXT, "
+                + Password_COL + " TEXT, "
+                + Email_COL + " TEXT, "
+                + Verified_COL + " BOOLEAN, "
+                + OTP_COL + " INT )";
 
-            // at last we are calling a exec sql
-            // method to execute above sql query
-            db.execSQL(query);
+        // at last we are calling a exec sql
+        // method to execute above sql query
+        db.execSQL(query);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
     }
 
     //When Adding a user to Table User this function to store the object user to the Database
-    public void addUser(User_Class user){
+    public void addUser(User_Class user) {
         //We add user to user_auth table
         // on below line we are creating a variable for
         // our sqlite database and calling writable method
@@ -94,7 +94,7 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
         values.put(NAME_COL, user.getName());
         values.put(Password_COL, user.getPassword());
         values.put(Email_COL, user.getEmail());
-        values.put(Verified_COL,false);
+        values.put(Verified_COL, false);
         values.put(OTP_COL, user.getOTP());
 
         // after adding all values we are passing
@@ -108,12 +108,12 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
 
 
     //This Function is to check if generated OTP is unique or not
-    public boolean checkOTP(SQLiteDatabase db,int _OTP){
+    public boolean checkOTP(SQLiteDatabase db, int _OTP) {
 
-        String query = "SELECT * from " + TABLE_NAME +" where "+ OTP_COL + " = " + _OTP;
+        String query = "SELECT * from " + TABLE_NAME + " where " + OTP_COL + " = " + _OTP;
 
-        Cursor c = db.rawQuery(query,null);
-        if(c.getCount() <= 0){
+        Cursor c = db.rawQuery(query, null);
+        if (c.getCount() <= 0) {
             c.close();
             return false;
         }
@@ -122,32 +122,32 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
     }
 
     //This function is to set the generated otp to a particular user
-    public void setOTP(SQLiteDatabase db,int OTP , int user_ID){
+    public void setOTP(SQLiteDatabase db, int OTP, int user_ID) {
         ContentValues values = new ContentValues();
 
-        values.put(OTP_COL,OTP);
+        values.put(OTP_COL, OTP);
 
-        db.update(TABLE_NAME,values,"id = ?", new String[]{String.valueOf(user_ID)});
+        db.update(TABLE_NAME, values, "id = ?", new String[]{String.valueOf(user_ID)});
     }
 
     //This function is used to get a unique UID from list i.e. max value
-    public int maxUid(SQLiteDatabase db){
-        String query = "Select max("+ID+") from "+TABLE_NAME;
+    public int maxUid(SQLiteDatabase db) {
+        String query = "Select max(" + ID + ") from " + TABLE_NAME;
 
-        Cursor s = db.rawQuery(query,null);
+        Cursor s = db.rawQuery(query, null);
         int ret = s.getInt(0);
         return ret;
     }
 
     //This function is used to return a User_Class object from list i.e. If we change login account
-    public User_Class getCUser(int Uid){
+    public User_Class getCUser(int Uid) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM "+TABLE_NAME + " WHERE "+ID+" = "+Uid,null);
-        Log.println(Log.ASSERT,"TAG", String.valueOf(cursor.getCount()));
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ID + " = " + Uid, null);
+        Log.println(Log.ASSERT, "TAG", String.valueOf(cursor.getCount()));
 
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
 
             int _ID = cursor.getInt(0);
             String _Name = cursor.getString(1);
@@ -157,7 +157,7 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
             boolean verified = _temp == 1;
             int _OTP = cursor.getInt(5);
 
-            return new User_Class(_ID,_Name,_Password,_Email,_OTP,verified);
+            return new User_Class(_ID, _Name, _Password, _Email, _OTP, verified);
 
         }
         return null;

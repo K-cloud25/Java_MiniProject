@@ -38,7 +38,8 @@
         app:layout_constraintTop_toBottomOf="@+id/sign_in">
 
         <EditText
-            android:layout_width="wrap_content"
+            android:id="@+id/userIdSignIn"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:backgroundTint="#333333"
@@ -61,7 +62,8 @@
         app:layout_constraintTop_toBottomOf="@+id/erpBox">
 
         <EditText
-            android:layout_width="wrap_content"
+            android:id="@+id/passOnSignIn"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:backgroundTint="#333333"
@@ -74,6 +76,7 @@
 
     <Button
         android:id="@+id/signIn"
+        android:onClick="signInOnSignIn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
@@ -98,6 +101,7 @@
         android:text="Sign UP"
         android:textColor="#bababa"
         android:textStyle="bold"
+        android:onClick="signUpOnSignIn"
         app:layout_constraintBottom_toTopOf="@+id/foot"
         app:layout_constraintEnd_toEndOf="@id/guideline1"
         app:layout_constraintHorizontal_bias="0.5"

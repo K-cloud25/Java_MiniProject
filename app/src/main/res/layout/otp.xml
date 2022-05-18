@@ -38,6 +38,7 @@
         app:layout_constraintTop_toBottomOf="@id/verify" />
 
     <com.chaos.view.PinView
+        android:id="@+id/otpPinView"
         android:layout_width="wrap_content"
         style="@style/PinWidget.PinView"
         android:layout_height="60dp"
