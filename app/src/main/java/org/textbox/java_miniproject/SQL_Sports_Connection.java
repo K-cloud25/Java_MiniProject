@@ -124,7 +124,7 @@ public class SQL_Sports_Connection extends SQLiteOpenHelper {
 
         SQLiteDatabase db  = this.getWritableDatabase();
 
-        String query = "SELECT * from "+TABLE_NAME+" WHERE " + SPORT_COL +" = "+_sportName ;
+        String query = "SELECT * from "+TABLE_NAME+" WHERE " + SPORT_COL +" = "+_sportName;
 
         Cursor c  = db.rawQuery(query,null);
 

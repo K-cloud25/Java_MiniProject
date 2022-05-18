@@ -1,7 +1,9 @@
 package org.textbox.java_miniproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,22 +16,29 @@ import com.chaos.view.PinView;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+    //First Time Entry has no Current User
+
+    EditText uidET,paswrdET;
 
     int otp;
-    User_Class temp;
+    User_Class temp,cUser;
+    int CuserUID;
+    SQL_User_Auth_Connection databaseH;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_in);
 
-//        User_Class temp1 = new User_Class(3, "Temp1", "tt", "234", 2143, false);
-//        SQL_User_Auth_Connection dbh = new SQL_User_Auth_Connection(this);
-//
-//        dbh.addUser(temp1);
-//        User_Class temp2 = dbh.getCUser(3);
-//
-//        Log.println(Log.ASSERT, "TAG : ", temp2.getName());
+        databaseH = new SQL_User_Auth_Connection(this);
+
+        CuserUID = getIntent().getIntExtra("userID",-1);
+        if(CuserUID != -1){
+            cUser = databaseH.getCUser(CuserUID);
+        }
+
+        uidET = findViewById(R.id.userIdSignIn);
+        paswrdET = findViewById(R.id.passOnSignIn);
     }
 
     public static int stringCompare(String str1, String str2) {
@@ -55,22 +64,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void signInOnSignIn(View view) {
-        EditText Uid;
-        Uid = (EditText) findViewById(R.id.userIdSignIn);
-        String uid = Uid.getText().toString();
+
+        String uid = uidET.getText().toString();
         int id = Integer.valueOf(uid);
-        EditText Pass;
-        Pass = (EditText) findViewById(R.id.passOnSignIn);
-        String pass = Pass.getText().toString();
+
+        String pass = paswrdET.getText().toString();
+
         SQL_User_Auth_Connection dbh = new SQL_User_Auth_Connection(this);
         User_Class temp = dbh.getCUser(id);
+
+
+
         if (temp == null)
             Toast.makeText(this, "Erp " + id + " does not exist", Toast.LENGTH_SHORT).show();
-        else if (temp.getVerified()== false) Toast.makeText(this, "Your id is not yet verified",Toast.LENGTH_SHORT).show();
-        else if (stringCompare(pass, temp.getPassword()) == 0) {
-            setContentView(R.layout.main_page);
+        else if (!temp.getVerified()) Toast.makeText(this, "Your id is not yet verified",Toast.LENGTH_SHORT).show();
+        else if (TextUtils.equals(pass,temp.getEmail())){
+            Intent main_Screen = new Intent(this,Main_Screen.class);
+            startActivity(main_Screen);
         } else {
-            Toast.makeText(this, "Invalid Erp No./ Password", Toast.LENGTH_SHORT).show();
+            paswrdET.setError("Incorrect Password");
         }
     }
 
@@ -97,13 +109,18 @@ public class MainActivity extends AppCompatActivity {
     public void otpVerify(View view) {
         PinView OTP = (PinView) findViewById(R.id.otpPinView);
         String v = OTP.getText().toString();
+
+        SQL_User_Auth_Connection dbh = new SQL_User_Auth_Connection(this);
+
         if (v == "") {
             Toast.makeText(this, "Please Enter an OTP", Toast.LENGTH_SHORT).show();
         } else {
             String o = Integer.toString(otp);
             if (stringCompare(o, v) == 0) {
                 temp.setVerified(true);
+                dbh.setVerified(temp.getId());
                 Toast.makeText(this, "You have been verified succcessfully", Toast.LENGTH_SHORT).show();
+
                 setContentView(R.layout.sign_in);
             } else {
                 Toast.makeText(this, "Wrong OTP", Toast.LENGTH_SHORT).show();
@@ -120,10 +137,10 @@ public class MainActivity extends AppCompatActivity {
         String pass = Pass.getText().toString();
         String email = uid + "@mitwpu.edu.in";
         SQL_User_Auth_Connection dbh = new SQL_User_Auth_Connection(this);
-        if (uid.matches("")) Toast.makeText(this, "Enter an ERP Number", Toast.LENGTH_SHORT).show();
-        else if (name.matches("")) Toast.makeText(this, "Enter a Name", Toast.LENGTH_SHORT).show();
-        else if (pass.matches(""))
-            Toast.makeText(this, "Enter a Password", Toast.LENGTH_SHORT).show();
+
+        if(TextUtils.isEmpty(uid)){ Uid.setError("Enter an ERP Number"); }
+        else if(TextUtils.isEmpty(name)){Name.setError("Enter a Name");}
+        else if(TextUtils.isEmpty(pass)){Pass.setError("Enter a Password");}
         else {
             int id = Integer.valueOf(uid);
             if (dbh.getCUser(id) != null)
@@ -133,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 otp = rnd.nextInt(9999);
                 temp = new User_Class(id, name, email, pass, otp);
                 dbh.addUser(temp);
+                dbh.setOTP(otp,id);
                 otpPopUp();
             }
         }
@@ -140,7 +158,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void signUpOnSignIn(View view) {
-        setContentView(R.layout.sign_up);
+        Intent signUp_Page = new Intent(this,SignUP.class);
+        startActivity(signUp_Page);
     }
 
     public void signInOnSignUp(View view) {

@@ -122,7 +122,9 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
     }
 
     //This function is to set the generated otp to a particular user
-    public void setOTP(SQLiteDatabase db, int OTP, int user_ID) {
+    public void setOTP(int OTP, int user_ID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
         ContentValues values = new ContentValues();
 
         values.put(OTP_COL, OTP);
@@ -161,6 +163,16 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
 
         }
         return null;
+    }
+
+    public void setVerified(int uid){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Verified_COL,true);
+
+        db.update(TABLE_NAME,values,"id = ?",new String[]{String.valueOf(uid)});
     }
 
 }
