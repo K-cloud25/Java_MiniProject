@@ -1,16 +1,11 @@
 package org.textbox.java_miniproject;
 
-import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.material.tabs.TabLayout;
 
 /*  This Class is for only User Related Table  User Authentication Table*/
 
@@ -58,8 +53,8 @@ public class SQL_User_Auth_Connection extends SQLiteOpenHelper {
         String query = " CREATE TABLE " + TABLE_NAME + " ("
                 + ID + " INTEGER PRIMARY KEY, "
                 + NAME_COL + " TEXT, "
-                + Password_COL + " TEXT, "
                 + Email_COL + " TEXT, "
+                + Password_COL + " TEXT, "
                 + Verified_COL + " BOOLEAN, "
                 + OTP_COL + " INT )";
 

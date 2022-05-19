@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         else if (!temp.getVerified()) Toast.makeText(this, "Your id is not yet verified",Toast.LENGTH_SHORT).show();
         else if (TextUtils.equals(pass,temp.getEmail())){
             Intent main_Screen = new Intent(this,Main_Screen.class);
+            main_Screen.putExtra("BookieName",temp.getName());
+            main_Screen.putExtra("BookieID",temp.getId());
             startActivity(main_Screen);
         } else {
             paswrdET.setError("Incorrect Password");
