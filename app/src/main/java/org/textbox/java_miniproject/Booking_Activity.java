@@ -115,12 +115,18 @@ public class Booking_Activity extends AppCompatActivity{
             public void onClick(View view) {
                 if(Timing.equals("........") || Timing.equals("..............")){
                     Toast.makeText(Booking_Activity.this,"Select Timing",Toast.LENGTH_SHORT).show();
-                }else{
+                }
+                else{
+                    int setTime = dbh.checkTime(selectedSport,Timing);
 
-                    Sports_Booking_Class booking = new Sports_Booking_Class(date,selectedSport,Timing,BookieName,BookieID,true);
-                    dbh.add_Booking(booking);
-                    dialog.dismiss();
-                    setUpRV();
+                    if(setTime != 0){
+                        Toast.makeText(Booking_Activity.this," Timing Unavailable",Toast.LENGTH_SHORT).show();
+                    }else{
+                        Sports_Booking_Class booking = new Sports_Booking_Class(date,selectedSport,Timing,BookieName,BookieID,true);
+                        dbh.add_Booking(booking);
+                        dialog.dismiss();
+                        setUpRV();
+                    }
                 }
             }
         });

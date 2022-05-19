@@ -70,7 +70,7 @@ public class SQL_Sports_Connection extends SQLiteOpenHelper {
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
 
-        String query = "CREATE TABLE " + TABLE_NAME + " ("
+        String query = "CREATE TABLE " + TABLE_NAME + " ( "
                 + DATE_COL + " TEXT, "
                 + SPORT_COL + " TEXT,"
                 + TIMINGS_COL + " TEXT,"
@@ -133,18 +133,16 @@ public class SQL_Sports_Connection extends SQLiteOpenHelper {
     }
 
     //Fuction to check if timing exsists
-    public boolean checkTime(String Sport,String Timr){
+    public int checkTime(String Sport,String Timr){
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         String query = "SELECT * FROM "+ TABLE_NAME+ " WHERE "
-                + TIMINGS_COL + " = " + Timr + " AND "
-                + SPORT_COL + " = " + Sport;
+                + TIMINGS_COL + " = " + "'" +Timr +"'" +" AND "
+                + SPORT_COL + " = " + " '"+Sport + "'";
 
         Cursor cursor = db.rawQuery(query,null);
-
-        return cursor.getCount() == 0;
-
+        return cursor.getCount();
     }
 
     //Function to get the ArrayList of all the bookings in the Database
