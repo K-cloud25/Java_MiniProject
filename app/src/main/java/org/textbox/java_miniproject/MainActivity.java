@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         if (temp == null)
             Toast.makeText(this, "Erp " + id + " does not exist", Toast.LENGTH_SHORT).show();
         else if (!temp.getVerified()) Toast.makeText(this, "Your id is not yet verified",Toast.LENGTH_SHORT).show();
-        else if (TextUtils.equals(pass,temp.getEmail())){
+        else if (TextUtils.equals(pass,temp.getPassword())){
             Intent main_Screen = new Intent(this,Main_Screen.class);
             main_Screen.putExtra("BookieName",temp.getName());
             main_Screen.putExtra("BookieID",temp.getId());

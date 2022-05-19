@@ -23,31 +23,43 @@ public class Main_Screen extends AppCompatActivity {
     }
 
     public void CricketClick(View view){
+        BookieName = getIntent().getStringExtra("BookieName");
+        BookieID = getIntent().getStringExtra("BookieID");
+        String sport = "cricket";
         Intent Booking_Activity = new Intent(this,Booking_Activity.class);
         Booking_Activity.putExtra("BookieName",BookieName);
         Booking_Activity.putExtra("BookieID",BookieID);
-        Booking_Activity.putExtra("sport","cricket");
+        Booking_Activity.putExtra("sport",sport);
         startActivity(Booking_Activity);
     }
     public void FootballClick(View view){
+        BookieName = getIntent().getStringExtra("BookieName");
+        BookieID = getIntent().getStringExtra("BookieID");
+        String sport = "football";
         Intent Booking_Activity = new Intent(this,Booking_Activity.class);
         Booking_Activity.putExtra("BookieName",BookieName);
         Booking_Activity.putExtra("BookieID",BookieID);
-        Booking_Activity.putExtra("sport","football");
+        Booking_Activity.putExtra("sport",sport);
         startActivity(Booking_Activity);
     }
     public void BasketballClick(View view){
+        BookieName = getIntent().getStringExtra("BookieName");
+        BookieID = getIntent().getStringExtra("BookieID");
+        String sport = "basketball";
         Intent Booking_Activity = new Intent(this,Booking_Activity.class);
         Booking_Activity.putExtra("BookieName",BookieName);
         Booking_Activity.putExtra("BookieID",BookieID);
-        Booking_Activity.putExtra("sport","basketball");
+        Booking_Activity.putExtra("sport",sport);
         startActivity(Booking_Activity);
     }
     public void ChessClick(View view){
+        BookieName = getIntent().getStringExtra("BookieName");
+        BookieID = getIntent().getStringExtra("BookieID");
+        String sport = "chess";
         Intent Booking_Activity = new Intent(this,Booking_Activity.class);
         Booking_Activity.putExtra("BookieName",BookieName);
         Booking_Activity.putExtra("BookieID",BookieID);
-        Booking_Activity.putExtra("sport","chess");
+        Booking_Activity.putExtra("sport",sport);
         startActivity(Booking_Activity);
     }
 }
