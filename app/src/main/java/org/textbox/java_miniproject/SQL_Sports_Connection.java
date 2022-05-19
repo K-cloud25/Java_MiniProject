@@ -55,9 +55,28 @@ public class SQL_Sports_Connection extends SQLiteOpenHelper {
                 + DATE_COL + " TEXT, "
                 + SPORT_COL + " TEXT,"
                 + TIMINGS_COL + " TEXT,"
-                + STATUS_COL + "BOOLEAN,"
-                + BOOKIE_NAME_COL + "TEXT,"
-                + BOOKIE_UID_COL + "INT)";
+                + STATUS_COL + " BOOLEAN,"
+                + BOOKIE_NAME_COL + " TEXT,"
+                + BOOKIE_UID_COL + " INT)";
+
+        // at last we are calling a exec sql
+        // method to execute above sql query
+        db.execSQL(query);
+    }
+
+    public void createTable(){
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+
+        String query = "CREATE TABLE " + TABLE_NAME + " ("
+                + DATE_COL + " TEXT, "
+                + SPORT_COL + " TEXT,"
+                + TIMINGS_COL + " TEXT,"
+                + STATUS_COL + " BOOLEAN,"
+                + BOOKIE_NAME_COL + " TEXT,"
+                + BOOKIE_UID_COL + " INT)";
 
         // at last we are calling a exec sql
         // method to execute above sql query
@@ -95,10 +114,6 @@ public class SQL_Sports_Connection extends SQLiteOpenHelper {
         // after adding all values we are passing
         // content values to our table.
         db.insert(TABLE_NAME, null, values);
-
-        // at last we are closing our
-        // database after adding database.
-        db.close();
     }
 
     //When day passes booking can be removed from Database using the function
@@ -115,7 +130,6 @@ public class SQL_Sports_Connection extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.rawQuery(query,null);
-        db.close();
     }
 
     //Fuction to check if timing exsists
@@ -139,25 +153,28 @@ public class SQL_Sports_Connection extends SQLiteOpenHelper {
 
         SQLiteDatabase db  = this.getWritableDatabase();
 
-        String query = "SELECT * from "+TABLE_NAME+" WHERE " + SPORT_COL +" = "+_sportName;
+        String query = "SELECT * from "+TABLE_NAME+" WHERE " + SPORT_COL +" = "+
+                " '"+_sportName+"'";
 
         Cursor c  = db.rawQuery(query,null);
 
-        for(int i = 0 ; i < c.getCount(); i++){
+        if(c.moveToFirst()){
+                for(int i = 0 ; i < c.getCount(); i++){
 
-            boolean t;
-            t = c.getInt(3) == 1;
+                boolean t;
+                t = c.getInt(3) == 1;
 
-            Sports_Booking_Class new_Obj = new Sports_Booking_Class(
-                    c.getString(0),
-                    c.getString(1),
-                    c.getString(2),
-                    c.getString(4),
-                    c.getString(5),
-                    t
-            );
+                Sports_Booking_Class new_Obj = new Sports_Booking_Class(
+                        c.getString(0),
+                        c.getString(1),
+                        c.getString(2),
+                        c.getString(4),
+                        c.getString(5),
+                        t
+                );
 
-            array.add(new_Obj);
+                array.add(new_Obj);
+            }
         }
 
         return array;

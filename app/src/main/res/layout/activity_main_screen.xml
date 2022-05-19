@@ -16,7 +16,7 @@
         app:srcCompat="@drawable/cricket" />
 
     <Button
-        android:onClick="CricketClick"
+        android:id="@+id/cricketBtn"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/buttonback"
@@ -30,7 +30,7 @@
         android:textStyle="bold"/>
 
     <Button
-        android:onClick="FootballClick"
+        android:id="@+id/footballBtn"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/buttonback"
@@ -44,7 +44,7 @@
         android:textStyle="bold"/>
 
     <Button
-        android:onClick="BasketballClick"
+        android:id="@+id/basketballBtn"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/buttonback"
@@ -58,7 +58,7 @@
         android:textStyle="bold"/>
 
     <Button
-        android:onClick="ChessClick"
+        android:id="@+id/chessBtn"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/buttonback"

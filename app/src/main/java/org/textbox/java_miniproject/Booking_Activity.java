@@ -8,9 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -18,13 +22,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class Booking_Activity extends AppCompatActivity {
+public class Booking_Activity extends AppCompatActivity{
 
     RecyclerView bookingRV;
-    ArrayList<Sports_Booking_Class> arrayList;
+    ArrayList<Sports_Booking_Class> arrayList = new ArrayList<>();
     SQL_Sports_Connection dbh;
 
-    String selectedSport,BookieName,BookieID;
+    String selectedSport,BookieName,BookieID,Timing;
 
     Button addBkn;
 
@@ -37,8 +41,10 @@ public class Booking_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_booking);
 
         bookingRV = findViewById(R.id.bookingRV);
+        Timing="........";
 
         dbh = new SQL_Sports_Connection(this);
+        dbh.createTable();
 
         selectedSport = getIntent().getStringExtra("sport");
         BookieName = getIntent().getStringExtra("BookieName");
@@ -51,12 +57,14 @@ public class Booking_Activity extends AppCompatActivity {
                 addNewBooking();
             }
         });
-
-        setUpRV();
     }
 
-
     void setUpRV(){
+
+        arrayList.clear();
+        arrayList = dbh.get_Bookings(selectedSport);
+
+
         Booking_Adapter adapter = new Booking_Adapter(arrayList);
         bookingRV.setHasFixedSize(true);
         bookingRV.setLayoutManager(new LinearLayoutManager(this));
@@ -64,7 +72,7 @@ public class Booking_Activity extends AppCompatActivity {
     }
 
     void addNewBooking(){
-        EditText bookingTiming;
+        Spinner spinner;
         Button addBtn;
         TextView bookingName,dateTV;
 
@@ -73,7 +81,7 @@ public class Booking_Activity extends AppCompatActivity {
         dialogBuilder = new AlertDialog.Builder(this);
         View layout = getLayoutInflater().inflate(R.layout.add_booking_popup,null);
 
-        bookingTiming = layout.findViewById(R.id.inputDate);
+
         bookingName = layout.findViewById(R.id.sportNameTV);
         dateTV = layout.findViewById(R.id.dateTV);
 
@@ -84,17 +92,35 @@ public class Booking_Activity extends AppCompatActivity {
         dialog = dialogBuilder.create();
         dialog.show();
 
+        spinner = layout.findViewById(R.id.timingSpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.timing, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Timing = adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         addBtn = layout.findViewById(R.id.addbtn);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String inputDate = bookingTiming.getText().toString();
+                if(Timing.equals("........") || Timing.equals("..............")){
+                    Toast.makeText(Booking_Activity.this,"Select Timing",Toast.LENGTH_SHORT).show();
+                }else{
 
-                if(dbh.checkTime(selectedSport,inputDate)){
-
-                    Sports_Booking_Class booking = new Sports_Booking_Class(date,selectedSport,inputDate,BookieName,BookieID,true);
+                    Sports_Booking_Class booking = new Sports_Booking_Class(date,selectedSport,Timing,BookieName,BookieID,true);
                     dbh.add_Booking(booking);
                     dialog.dismiss();
+                    setUpRV();
                 }
             }
         });

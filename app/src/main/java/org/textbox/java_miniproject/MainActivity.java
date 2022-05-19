@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     int CuserUID;
     SQL_User_Auth_Connection databaseH;
 
+    Button SignUP,SignIn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,22 @@ public class MainActivity extends AppCompatActivity {
 
         uidET = findViewById(R.id.userIdSignIn);
         paswrdET = findViewById(R.id.passOnSignIn);
+
+        SignUP = findViewById(R.id.signUp);
+        SignUP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signUpOnSignIn();
+            }
+        });
+
+        SignIn = findViewById(R.id.signIn);
+        SignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signInOnSignIn();
+            }
+        });
     }
 
     public static int stringCompare(String str1, String str2) {
@@ -63,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void signInOnSignIn(View view) {
+    public void signInOnSignIn() {
 
         String uid = uidET.getText().toString();
         int id = Integer.valueOf(uid);
@@ -73,15 +92,13 @@ public class MainActivity extends AppCompatActivity {
         SQL_User_Auth_Connection dbh = new SQL_User_Auth_Connection(this);
         User_Class temp = dbh.getCUser(id);
 
-
-
         if (temp == null)
             Toast.makeText(this, "Erp " + id + " does not exist", Toast.LENGTH_SHORT).show();
         else if (!temp.getVerified()) Toast.makeText(this, "Your id is not yet verified",Toast.LENGTH_SHORT).show();
         else if (TextUtils.equals(pass,temp.getPassword())){
             Intent main_Screen = new Intent(this,Main_Screen.class);
             main_Screen.putExtra("BookieName",temp.getName());
-            main_Screen.putExtra("BookieID",temp.getId());
+            main_Screen.putExtra("BookieID",uid);
             startActivity(main_Screen);
         } else {
             paswrdET.setError("Incorrect Password");
@@ -159,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void signUpOnSignIn(View view) {
+    public void signUpOnSignIn() {
         Intent signUp_Page = new Intent(this,SignUP.class);
         startActivity(signUp_Page);
     }

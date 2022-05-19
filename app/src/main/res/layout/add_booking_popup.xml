@@ -37,14 +37,13 @@
         android:text="Enter booking Timinig"
         android:textSize="20sp"
         android:textColor="@color/black"/>
-    <EditText
-        android:id="@+id/inputDate"
+    <Spinner
+        android:id="@+id/timingSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:textColor="@color/black"
-        android:inputType="text"
-        android:autofillHints="no" />
+        android:padding="15dp"
+        />
 
     <Button
         android:id="@+id/addbtn"

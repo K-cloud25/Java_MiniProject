@@ -76,7 +76,6 @@
 
     <Button
         android:id="@+id/signIn"
-        android:onClick="signInOnSignIn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
@@ -101,7 +100,6 @@
         android:text="Sign UP"
         android:textColor="#bababa"
         android:textStyle="bold"
-        android:onClick="signUpOnSignIn"
         app:layout_constraintBottom_toTopOf="@+id/foot"
         app:layout_constraintEnd_toEndOf="@id/guideline1"
         app:layout_constraintHorizontal_bias="0.5"
