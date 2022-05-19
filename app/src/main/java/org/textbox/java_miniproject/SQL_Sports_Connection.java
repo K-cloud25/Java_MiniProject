@@ -105,17 +105,32 @@ public class SQL_Sports_Connection extends SQLiteOpenHelper {
     public void rem_Booking(Sports_Booking_Class booking){
 
         String query = "DELETE from "+TABLE_NAME + " WHERE  "
-                +DATE_COL+" = " +booking.getDate()
-                +SPORT_COL+" = " + booking.getSport()
-                +TIMINGS_COL+ " = " + booking.getTime()
-                +STATUS_COL+ " = " + booking.getStatus().toString()
-                +BOOKIE_NAME_COL+ " = " + booking.getBookieName()
+                +DATE_COL+" = " +booking.getDate() + " AND "
+                +SPORT_COL+" = " + booking.getSport() + " AND "
+                +TIMINGS_COL+ " = " + booking.getTime() + " AND "
+                +STATUS_COL+ " = " + booking.getStatus().toString() + " AND "
+                +BOOKIE_NAME_COL+ " = " + booking.getBookieName() + " AND "
                 +BOOKIE_UID_COL+ " = " + booking.getBookieID();
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.rawQuery(query,null);
         db.close();
+    }
+
+    //Fuction to check if timing exsists
+    public boolean checkTime(String Sport,String Timr){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT * FROM "+ TABLE_NAME+ " WHERE "
+                + TIMINGS_COL + " = " + Timr + " AND "
+                + SPORT_COL + " = " + Sport;
+
+        Cursor cursor = db.rawQuery(query,null);
+
+        return cursor.getCount() == 0;
+
     }
 
     //Function to get the ArrayList of all the bookings in the Database
@@ -145,7 +160,6 @@ public class SQL_Sports_Connection extends SQLiteOpenHelper {
             array.add(new_Obj);
         }
 
-        db.close();
         return array;
     }
 
