@@ -156,7 +156,7 @@ public class SQL_Sports_Connection extends SQLiteOpenHelper {
 
         Cursor c  = db.rawQuery(query,null);
 
-        if(c.moveToFirst()){
+        while(c.moveToNext()){
                 for(int i = 0 ; i < c.getCount(); i++){
 
                 boolean t;

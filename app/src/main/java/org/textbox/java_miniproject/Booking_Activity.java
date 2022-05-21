@@ -60,10 +60,16 @@ public class Booking_Activity extends AppCompatActivity{
     }
 
     void setUpRV(){
+        arrayList.clear();
+
+        Booking_Adapter adapterC = new Booking_Adapter(arrayList);
+        bookingRV.setHasFixedSize(true);
+        bookingRV.setLayoutManager(new LinearLayoutManager(this));
+        bookingRV.setAdapter(adapterC);
 
         arrayList.clear();
         arrayList = dbh.get_Bookings(selectedSport);
-
+        arrayList = removeDuplicates(arrayList);
 
         Booking_Adapter adapter = new Booking_Adapter(arrayList);
         bookingRV.setHasFixedSize(true);
@@ -131,5 +137,27 @@ public class Booking_Activity extends AppCompatActivity{
             }
         });
 
+    }
+
+    // Function to remove duplicates from an ArrayList
+    public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list)
+    {
+
+        // Create a new ArrayList
+        ArrayList<T> newList = new ArrayList<T>();
+
+        // Traverse through the first list
+        for (T element : list) {
+
+            // If this element is not present in newList
+            // then add it
+            if (!newList.contains(element)) {
+
+                newList.add(element);
+            }
+        }
+
+        // return the new list
+        return newList;
     }
 }
