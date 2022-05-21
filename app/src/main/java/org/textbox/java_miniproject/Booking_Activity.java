@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class Booking_Activity extends AppCompatActivity{
 
@@ -60,15 +61,11 @@ public class Booking_Activity extends AppCompatActivity{
     }
 
     void setUpRV(){
-        arrayList.clear();
 
-        Booking_Adapter adapterC = new Booking_Adapter(arrayList);
-        bookingRV.setHasFixedSize(true);
-        bookingRV.setLayoutManager(new LinearLayoutManager(this));
-        bookingRV.setAdapter(adapterC);
 
         arrayList.clear();
         arrayList = dbh.get_Bookings(selectedSport);
+
         arrayList = removeDuplicates(arrayList);
 
         Booking_Adapter adapter = new Booking_Adapter(arrayList);
@@ -140,24 +137,26 @@ public class Booking_Activity extends AppCompatActivity{
     }
 
     // Function to remove duplicates from an ArrayList
-    public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list)
-    {
+    public ArrayList<Sports_Booking_Class> removeDuplicates(ArrayList<Sports_Booking_Class> arrayList){
 
-        // Create a new ArrayList
-        ArrayList<T> newList = new ArrayList<T>();
+        ArrayList<Sports_Booking_Class> temp_array = new ArrayList<Sports_Booking_Class>();
 
-        // Traverse through the first list
-        for (T element : list) {
+        for(int i=0;i< arrayList.size();i++)
+        {
+            Sports_Booking_Class temp = arrayList.get(i);
 
-            // If this element is not present in newList
-            // then add it
-            if (!newList.contains(element)) {
-
-                newList.add(element);
+            boolean flag = false;
+            for(int j=i+1;j< arrayList.size();j++){
+                if(temp.getTime().equals(arrayList.get(j).getTime())) {
+                    flag=true;
+                }
             }
-        }
 
-        // return the new list
-        return newList;
+            if(!flag){
+                temp_array.add(temp);
+            }
+
+        }
+        return temp_array;
     }
 }
