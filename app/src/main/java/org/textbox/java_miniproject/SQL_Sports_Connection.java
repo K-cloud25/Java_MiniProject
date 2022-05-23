@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 
 //This class is used to interact with the SPORTS TABLE
@@ -51,7 +50,7 @@ public class SQL_Sports_Connection extends SQLiteOpenHelper {
         // an sqlite query and we are
         // setting our column names
         // along with their data types.
-        String query = "CREATE TABLE " + TABLE_NAME + " ("
+        String query = "CREATE TABLE IF NOT EXISTS "+ TABLE_NAME + " ("
                 + DATE_COL + " TEXT, "
                 + SPORT_COL + " TEXT,"
                 + TIMINGS_COL + " TEXT,"
@@ -70,7 +69,7 @@ public class SQL_Sports_Connection extends SQLiteOpenHelper {
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
 
-        String query = "CREATE TABLE " + TABLE_NAME + " ( "
+        String query = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( "
                 + DATE_COL + " TEXT, "
                 + SPORT_COL + " TEXT,"
                 + TIMINGS_COL + " TEXT,"
