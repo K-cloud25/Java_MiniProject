@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,11 +59,15 @@ public class Booking_Activity extends AppCompatActivity{
                 addNewBooking();
             }
         });
+
+        arrayList.clear();
+        arrayList = dbh.get_Bookings(selectedSport);
+        if(arrayList.size()!=0){
+            setUpRV();
+        }
     }
 
     void setUpRV(){
-
-
         arrayList.clear();
         arrayList = dbh.get_Bookings(selectedSport);
 
@@ -128,6 +133,16 @@ public class Booking_Activity extends AppCompatActivity{
                         Sports_Booking_Class booking = new Sports_Booking_Class(date,selectedSport,Timing,BookieName,BookieID,true);
                         dbh.add_Booking(booking);
                         dialog.dismiss();
+
+                        Intent intent = new Intent(Booking_Activity.this,DownloadTicket_Activity.class);
+                        intent.putExtra("date_",booking.getDate());
+                        intent.putExtra("sport_",booking.getSport());
+                        intent.putExtra("time_",booking.getTime());
+                        intent.putExtra("Bname_",booking.getBookieName());
+                        intent.putExtra("id_",booking.getBookieID());
+
+                        startActivity(intent);
+
                         setUpRV();
                     }
                 }

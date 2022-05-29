@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     int otp;
     User_Class temp,cUser;
     int CuserUID;
+    
     SQL_User_Auth_Connection databaseH;
 
     Button SignUP,SignIn;
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
             main_Screen.putExtra("BookieName",temp.getName());
             main_Screen.putExtra("BookieID",uid);
             startActivity(main_Screen);
+            finish();
         } else {
             paswrdET.setError("Incorrect Password");
         }

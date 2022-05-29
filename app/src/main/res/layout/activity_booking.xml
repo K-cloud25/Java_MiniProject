@@ -38,6 +38,7 @@
         android:scrollbars="vertical"
         android:paddingVertical="15dp"
         app:layout_constraintTop_toTopOf="@id/temp_Bar"
-        tools:listitem="@layout/booking_layout_item" />
+        tools:listitem="@layout/booking_layout_item"
+        />
 
 </LinearLayout>

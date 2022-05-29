@@ -67,8 +67,6 @@ public class SQL_Sports_Connection extends SQLiteOpenHelper {
 
         SQLiteDatabase db = getWritableDatabase();
 
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-
         String query = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( "
                 + DATE_COL + " TEXT, "
                 + SPORT_COL + " TEXT,"
